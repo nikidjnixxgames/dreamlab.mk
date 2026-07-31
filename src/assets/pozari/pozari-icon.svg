@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">Pozari.mk fire location icon</title>
+<desc id="desc">A red flame containing a white map pin.</desc>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#EF3B2D"/><stop offset="100%" stop-color="#C91515"/></linearGradient></defs>
+<path fill="url(#g)" d="M278 28c16 72-28 96-6 146 19-25 36-47 35-83 56 57 101 123 101 207 0 101-70 178-152 178S104 399 104 298c0-63 30-117 79-170-3 48 15 79 37 100-4-74 34-128 58-200z"/>
+<path fill="#fff" fill-rule="evenodd" d="M256 190c-55 0-100 45-100 100 0 75 100 160 100 160s100-85 100-160c0-55-45-100-100-100zm0 143a43 43 0 1 1 0-86 43 43 0 0 1 0 86z"/>
+</svg>
