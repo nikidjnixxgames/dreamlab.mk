@@ -1,0 +1,142 @@
+name: Deploy DreamLab
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: dreamlab-production
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production website
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
+          test -f dist/.htaccess
+          echo "Production build verified."
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/dreamlab_deploy
+          chmod 600 ~/.ssh/dreamlab_deploy
+
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Test SSH connection
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          ssh \
+            -i ~/.ssh/dreamlab_deploy \
+            -p "$SSH_PORT" \
+            -o BatchMode=yes \
+            -o ConnectTimeout=15 \
+            "$SSH_USER@$SSH_HOST" \
+            "echo 'SSH connection successful'"
+
+      - name: Prepare remote document root
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_TARGET: ${{ secrets.SSH_TARGET }}
+        run: |
+          ssh \
+            -i ~/.ssh/dreamlab_deploy \
+            -p "$SSH_PORT" \
+            "$SSH_USER@$SSH_HOST" \
+            "mkdir -p '$SSH_TARGET'"
+
+      - name: Deploy production build
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_TARGET: ${{ secrets.SSH_TARGET }}
+        run: |
+          rsync \
+            -az \
+            --delete \
+            --exclude='cgi-bin/' \
+            --exclude='error_log' \
+            -e "ssh -i ~/.ssh/dreamlab_deploy -p $SSH_PORT" \
+            dist/ \
+            "$SSH_USER@$SSH_HOST:$SSH_TARGET/"
+
+      - name: Verify remote files
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_TARGET: ${{ secrets.SSH_TARGET }}
+        run: |
+          ssh \
+            -i ~/.ssh/dreamlab_deploy \
+            -p "$SSH_PORT" \
+            "$SSH_USER@$SSH_HOST" \
+            "test -f '$SSH_TARGET/index.html' &&
+             test -f '$SSH_TARGET/.htaccess' &&
+             test -d '$SSH_TARGET/assets' &&
+             echo 'Remote deployment verified.'"
+
+      - name: Verify live website
+        run: |
+          sleep 5
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --retry 3 \
+            --retry-delay 5 \
+            https://dreamlab.mk/ \
+            > /dev/null
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --retry 3 \
+            --retry-delay 5 \
+            https://dreamlab.mk/products/konobar \
+            > /dev/null
+
+          echo "Live website verified."
