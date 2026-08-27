@@ -1,0 +1,174 @@
+{
+  "nav": {
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact",
+    "main": "Main navigation",
+    "home": "DreamLab home",
+    "availability": "Available for collaboration"
+  },
+  "language": {
+    "label": "Choose language",
+    "english": "English",
+    "macedonian": "Macedonian"
+  },
+  "hero": {
+    "title": "Building digital products that solve real-world problems.",
+    "titleLine1": "Building digital products",
+    "titleLine2": "that solve",
+    "titleLine3": "real-world problems",
+    "description": "We design and build focused software that helps people, businesses and cities through thoughtful digital products.",
+    "explore": "Explore Products",
+    "process": "Our Process"
+  },
+  "products": {
+    "label": "Products",
+    "live": "BETA",
+    "pozariTitle": "Wildfire Intelligence Platform",
+    "pozariDescription": "Live fire monitoring, citizen reporting, and real-time situational awareness.",
+    "pozariCta": "Explore Pozari.mk",
+    "captionTitle": "Professional Macedonian Captions",
+    "captionDescription": "From speech to polished animated subtitles in just a few minutes.",
+    "captionCta": "Explore CaptionLab.mk"
+  },
+  "coming": {
+    "eyebrow": "FUTURE PRODUCTS",
+    "title": "Coming Next",
+    "more": "CLICK FOR MORE INFO",
+    "confidential": "CONFIDENTIAL PHASE"
+  },
+  "heroPreview": {
+    "pozariTitle": "Wildfire Monitor",
+    "pozariTrack": "TRACK AND REPORT FIRES IN REAL TIME",
+    "pozariLive": "LIVE FIRE MONITORING",
+    "latest": "LATEST DETECTIONS",
+    "detections": "detections",
+    "cities": { "Skopje": "Skopje", "Veles": "Veles", "Bitola": "Bitola" },
+    "captionTitle": "Professional Macedonian Captions",
+    "captionDescription": "From speech to perfectly animated subtitles",
+    "captionDescription2": "in just a few minutes.",
+    "before": "BEFORE",
+    "after": "AFTER",
+    "captionResultLine1": "THIS IS HOW",
+    "captionResultLine2": "YOUR CAPTIONS WILL LOOK"
+  },
+  "process": {
+    "research": "Research.",
+    "prototype": "Prototype.",
+    "launch": "Launch.",
+    "learn": "Learn."
+  },
+  "about": {
+    "founded": "Founded",
+    "clients": "Clients Worldwide",
+    "videos": "Videos & Campaigns",
+    "title": "From creative production to digital products.",
+    "paragraphs": [
+      "DreamLab was founded on September 13, 2017, by Nikola and Aleksandra with a simple goal: create work that delivers measurable results, not just beautiful visuals.",
+      "What started as a creative studio specializing in marketing, video production, and digital content has grown into a multidisciplinary company serving more than 500 clients worldwide.",
+      "Over the years, we've produced more than 10,000 videos, creative concepts, and marketing campaigns across a wide range of industries.",
+      "Our portfolio includes animated explainers, documentaries, branded content, commercial productions, and large-scale digital campaigns.",
+      "Through agency partnerships, our work has contributed to projects involving globally recognized organizations such as NASA and Michelin, as well as a campaign for a U.S. presidential candidate during a recent election cycle.",
+      "Today, DreamLab is entering its next chapter.",
+      "Alongside our creative services, we're building software products that solve real-world problems.",
+      "Products like Pozari.mk and CaptionLab.mk represent the evolution of years of creative experience into focused digital tools used by real people."
+    ]
+  },
+  "konobar": {
+    "meta": {
+      "title": "Konobar — NFC Digital Waiter | DreamLab",
+      "description": "A browser-based NFC hospitality system for faster table service."
+    },
+    "hero": {
+      "eyebrow": "DREAMLAB PRODUCT · COMING SOON",
+      "title": "Fewer waits.\nBetter\nservice.",
+      "description": "A browser-based hospitality system that lets guests request restaurant service directly from their table with a simple NFC tap—without installing an app, creating an account, or trying to attract a waiter’s attention.",
+      "how": "See How It Works",
+      "waitlist": "Join the Waitlist"
+    },
+    "phone": {
+      "call": "Call waiter",
+      "bill": "Request bill",
+      "items": "Additional items",
+      "other": "Additional items",
+      "sent": "Request sent",
+      "service": "Service Request",
+      "table": "TABLE 07",
+      "now": "now"
+    },
+    "overview": {
+      "title": "Bring ease back to hospitality service.",
+      "copy": "Guests should not need to wave, wait, or leave the table simply to request basic service.",
+      "live": "LIVE SERVICE OVERVIEW",
+      "active": "5 ACTIVE REQUESTS",
+      "every": "Every table.",
+      "request": "Every request.",
+      "view": "In one view.",
+      "table": "Table",
+      "status": "Status",
+      "bill": "Request bill",
+      "call": "Call waiter",
+      "items": "Additional items",
+      "help": "Help needed",
+      "inProgress": "In progress",
+      "waiting": "Waiting",
+      "accepted": "Accepted",
+      "dashboard": "Service Dashboard",
+      "liveLabel": "Live",
+      "all": "All Requests",
+      "overviewLabel": "Table overview",
+      "completed": "Completed",
+      "active": "Active Requests",
+      "other": "Additional items"
+    },
+    "benefits": {
+      "noInstall": "No app installation",
+      "noInstallText": "Guests simply tap the NFC tag already placed on the table.",
+      "instantCommunication": "Instant communication",
+      "instantCommunicationText": "Every request is delivered immediately to the service staff.",
+      "fasterResponse": "Faster response",
+      "fasterResponseText": "Waiters always know exactly which table needs attention."
+    },
+    "why": {
+      "eyebrow": "WHY IT MATTERS",
+      "title": "Ease is built through the service experience, not only the food.",
+      "copy": "A few unnoticed minutes can define how guests remember an entire visit. When requests are visible, structured, and linked to the correct table, staff can respond with more clarity and less friction.",
+      "restaurants": "Restaurants",
+      "cafes": "Cafés",
+      "bars": "Bars",
+      "hotels": "Hotels",
+      "beach": "Beach venues",
+      "casual": "Casual dining",
+      "oneTap": "One tap",
+      "noApp": "No app required",
+      "instant": "Instant",
+      "identification": "Table identification",
+      "realtime": "Real-time",
+      "visibility": "Service visibility"
+    },
+    "idea": {
+      "eyebrow": "THE PRODUCT IDEA",
+      "title": "Instead of forcing guests to search for staff, give every table a direct digital connection.",
+      "description": "Each table receives a unique NFC tag. Guests tap the tag, choose a request, and send it directly to the service team.",
+      "staff": "Service team"
+    },
+    "steps": {
+      "eyebrow": "HOW IT WORKS",
+      "title": "A simple system,\nworking together.",
+      "step1": "Tap the table tag",
+      "copy1": "The guest taps the NFC tag placed on the table.",
+      "step2": "Choose the request",
+      "copy2": "The mobile interface shows clear service actions.",
+      "step3": "Staff responds",
+      "copy3": "The request appears in the service dashboard instantly."
+    },
+    "cta": {
+      "eyebrow": "COMING SOON",
+      "title": "Bring faster service\nto every table.",
+      "description": "The NFC Digital Waiter is currently in development for hospitality businesses that want better guest communication.",
+      "waitlist": "Join the Waitlist",
+      "back": "Back to DreamLab"
+    }
+  },
+  "footer": { "copyright": "© 2017 DreamLab", "made": "Made in Macedonia 🇲🇰" }
+}

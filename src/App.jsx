@@ -1,23 +1,90 @@
 import './App.css'
-import { useEffect } from 'react'
-import pozariScreenshot from './assets/pozari/pozari-og.png'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import SiteHeader, { DreamLabMark } from './SiteHeader.jsx'
+import SiteFooter from './components/SiteFooter.jsx'
+import ProductCard from './components/ProductCard.jsx'
 
 function PozariStatus() {
-  return <span className="pozari-live-status" role="status">СЛЕДЕЊЕ НА ПОЖАРИ ВО ЖИВО</span>
+  const { t } = useTranslation()
+  return <span className="pozari-live-status" role="status">{t('heroPreview.pozariLive')}</span>
 }
 
-function DreamLabMark({ small = false }) {
-  return (
-    <span className={`brand-mark${small ? ' brand-mark--small' : ''}`} aria-hidden="true">
-      <svg viewBox="0 0 44 44" focusable="false">
-        <path d="M7 6h11c11 0 19 7 19 16s-8 16-19 16H7V6Zm8 7v18h3c6 0 11-3 11-9s-5-9-11-9h-3Z" />
-        <path d="M24 22h13v7H24z" />
-      </svg>
-    </span>
-  )
+const latestPozariDetections = [
+  { location: 'Skopje', time: '03:07 · 24/08/26', count: '19 detections' },
+  { location: 'Veles', time: '03:07 · 24/08/26', count: '9 detections' },
+  { location: 'Bitola', time: '03:07 · 24/08/26', count: '13 detections' },
+]
+
+const scrollToSection = (id) => {
+  const target = document.getElementById(id)
+  const header = document.querySelector('.site-header')
+
+  if (!target) return
+
+  const headerHeight = header?.getBoundingClientRect().height ?? 0
+  const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: 'smooth',
+  })
+}
+
+function handleSectionClick(id, event) {
+  event.preventDefault()
+  scrollToSection(id)
+}
+
+function CountUpMetric({ value, suffix = '', label }) {
+  const [isVisible, setIsVisible] = useState(false)
+  const metricRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      observer.disconnect()
+      setIsVisible(true)
+    }, { threshold: 0.35 })
+
+    if (metricRef.current) observer.observe(metricRef.current)
+    return () => observer.disconnect()
+  }, [value])
+
+  return <div className={`metric-card${isVisible ? ' is-visible' : ''}`} ref={metricRef}><strong>{value}{suffix}</strong><span>{label}</span></div>
+}
+
+function FutureCardLink({ to, children, className = '' }) {
+  return <Link to={to || '/'} className={`future-card-link${className ? ` ${className}` : ''}`}>{children}</Link>
+}
+
+function BackToTop() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 500)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return <button className={`back-to-top${visible ? ' is-visible' : ''}`} type="button" aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>↑</button>
 }
 
 function App() {
+  const { t, i18n } = useTranslation()
+  const pozariImage = i18n.language === 'mk' ? '/og-image.png' : '/pozarimk_mk.png'
+  const location = useLocation()
+
+  useEffect(() => {
+    const targetId = location.state?.scrollTo || location.state?.section
+    if (!targetId) return
+    const frame = window.requestAnimationFrame(() => targetId === 'top' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : scrollToSection(targetId))
+    window.history.replaceState({}, '', '/')
+    return () => window.cancelAnimationFrame(frame)
+  }, [location.state])
+
   useEffect(() => {
     const root = document.documentElement
     root.classList.add('reveal-ready')
@@ -40,7 +107,6 @@ function App() {
       root.classList.remove('reveal-ready')
     }
   }, [])
-
 
   useEffect(() => {
     const scene = document.querySelector('.hero-ecosystem')
@@ -203,6 +269,7 @@ function App() {
   useEffect(() => {
     const scene = document.querySelector('.hero-ecosystem')
     if (!scene) return undefined
+    if (window.matchMedia('(max-width: 767px)').matches) return undefined
     if (window.matchMedia('(prefers-reduced-motion: reduce), (pointer: coarse)').matches) return undefined
     const layers = scene.querySelectorAll('[data-depth]')
     const cards = [...scene.querySelectorAll('.ecosystem-panel')]
@@ -265,45 +332,29 @@ function App() {
 
   return (
     <div className="site-shell">
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="DreamLab home">
-          <DreamLabMark />
-          <span className="brand-name">DreamLab</span>
-        </a>
-
-        <nav className="main-nav" aria-label="Main navigation">
-          <a href="#studio">Products</a>
-          <a href="#ventures">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
-
-        <div className="availability">
-          <span className="availability-dot" />
-          Available for collaboration
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="top">
         <section className="hero-section" id="studio">
           <div className="hero-copy">
             <h1 data-reveal="hero-headline">
-              Building digital products
+              {t('hero.titleLine1')}
               <br />
-              that solve
+              {t('hero.titleLine2')}
               <br />
-              real-world problems<span className="heading-dot">.</span>
+              {t('hero.titleLine3')}<span className="heading-dot">.</span>
             </h1>
             <p className="hero-description" data-reveal="hero-description">
-              We design and build focused software that helps people, businesses and cities through thoughtful digital products.
+              {t('hero.description')}
             </p>
             <div className="hero-actions" data-reveal="hero-actions">
-              <a className="hero-action hero-action--primary" href="#ventures">Explore Products <span>↗</span></a>
-              <a className="hero-action hero-action--secondary" href="#process">Our Process <span>→</span></a>
+              <a className="hero-action hero-action--primary" href="#products" onClick={(event) => handleSectionClick('products', event)}>{t('hero.explore')} <span>↗</span></a>
+              <a className="hero-action hero-action--secondary" href="/" onClick={(event) => handleSectionClick('process', event)}>{t('hero.process')} <span>→</span></a>
             </div>
           </div>
 
           <div className="hero-visual">
-            <div className="hero-ecosystem" data-reveal="hero-art" aria-label="Connected digital product ecosystem illustration">
+            <div className="hero-ecosystem desktop-hero-products" data-reveal="hero-art" aria-label="Connected digital product ecosystem illustration">
               <span className="ecosystem-ambient ecosystem-ambient--one" data-depth="0.55" />
               <span className="ecosystem-ambient ecosystem-ambient--two" data-depth="0.8" />
               <span className="ecosystem-ambient ecosystem-ambient--three" data-depth="0.35" />
@@ -313,139 +364,118 @@ function App() {
               <span className="ecosystem-line ecosystem-line--two" data-depth="0.38" />
               <span className="ecosystem-line ecosystem-line--three" data-depth="0.38" />
               <span className="ecosystem-node ecosystem-node--one" data-depth="0.42" />
-              <span className="ecosystem-node ecosystem-node--two" data-depth="0.42" />
               <span className="ecosystem-node ecosystem-node--three" data-depth="0.42" />
               <span className="ecosystem-data-pulse ecosystem-data-pulse--one" />
               <span className="ecosystem-data-pulse ecosystem-data-pulse--two" />
-              <div className="ecosystem-panel ecosystem-panel--map" data-depth="0.72">
+              <div className="ecosystem-panel ecosystem-panel--map hero-product-card--pozari" data-depth="0.72">
                 <span className="panel-kicker">POZARI.MK <em>LIVE</em></span>
-                <b>Active fire monitoring</b>
-                <span className="panel-map panel-map--pozari"><img src={pozariScreenshot} alt="Pozari.mk live wildfire map preview" /><span className="map-sweep" /></span>
+                <b>{t('heroPreview.pozariTitle')}</b>
+                <span className="panel-map panel-map--pozari"><img src={pozariImage} alt={i18n.language === 'mk' ? 'Pozari.mk платформа за следење пожари' : 'Pozari.mk wildfire monitoring platform'} /></span>
                 <PozariStatus />
-                <span className="panel-activity"><i /><i /><i /><i /><i /><i /><i /><i /></span>
+                <div className="pozari-detections">
+                  <span className="pozari-detections-title">{t('heroPreview.latest')}</span>
+                  <div className="pozari-detections-grid">
+                    {latestPozariDetections.map((detection) => (
+                      <article className="pozari-detection" key={detection.location}>
+                        <div className="detection-header">
+                          <div className="detection-title-group">
+                            <span className="detection-dot" />
+                            <span className="detection-city" title={t(`heroPreview.cities.${detection.location}`)}>{t(`heroPreview.cities.${detection.location}`)}</span>
+                          </div>
+                          <span className="detection-arrow">→</span>
+                        </div>
+                        <small>{detection.time}</small>
+                        <strong>{detection.count.replace(' detections', '')} {t('heroPreview.detections')}</strong>
+                      </article>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="ecosystem-panel ecosystem-panel--city" data-depth="0.9">
-                <span className="panel-kicker">PROBLEM.MK <em>ACTIVE</em></span>
-                <b>Reports in the city</b>
-                <span className="panel-report"><strong>12</strong><span>unresolved</span><i /></span>
-                <span className="panel-progress"><i /></span>
-                <span className="panel-status"><i /> Skopje · Centar <strong>just now</strong></span>
+              <div className="ecosystem-panel ecosystem-panel--service hero-product-card--captionlab" data-depth="1.08">
+                <span className="panel-kicker captionlab-kicker">CAPTIONLAB.MK <em>LIVE</em></span>
+                <b className="captionlab-title">{t('heroPreview.captionTitle')}</b>
+                <div className="captionlab-compare">
+                  <div className="captionlab-video captionlab-video--before"><span>{t('heroPreview.before')}</span><i className="captionlab-scene" /><strong /></div>
+                  <button className="captionlab-divider" aria-label="Compare before and after">→</button>
+                <div className="captionlab-video captionlab-video--after"><span>{t('heroPreview.after')}</span><i className="captionlab-scene" /><strong>{t('heroPreview.captionResultLine1')}<br />{t('heroPreview.captionResultLine2')}</strong></div>
+                </div>
+                <p className="captionlab-description">{t('heroPreview.captionDescription')}<br />{t('heroPreview.captionDescription2')}</p>
               </div>
-              <div className="ecosystem-panel ecosystem-panel--service" data-depth="1.08">
-                <span className="panel-kicker">KONOBAR.MK <em>ONLINE</em></span>
-                <b>Service flow</b>
-                <span className="panel-order"><i /><span>Table 07</span><strong>Preparing</strong></span>
-                <span className="panel-progress"><i /></span>
-                <span className="panel-status"><i /> 18 tables active <strong className="panel-notification">+1</strong></span>
-              </div>
-              <span className="ecosystem-core" data-depth="0.5"><i /><b>DL</b></span>
             </div>
           </div>
         </section>
 
+        <section id="products" aria-label="Products">
+        <section className="products-section" aria-label="Live products">
+          <div className="venture-grid">
+            <ProductCard kind="pozari" domain="POZARI.MK" title="Wildfire Intelligence Platform" description="Live fire monitoring, citizen reporting, and real-time situational awareness." cta="Explore Pozari.mk">
+              <div className="pozari-product-preview"><img src={pozariImage} alt={i18n.language === 'mk' ? 'Pozari.mk платформа за следење пожари' : 'Pozari.mk wildfire monitoring platform'} /></div>
+            </ProductCard>
+            <ProductCard kind="captionlab" domain="CAPTIONLAB.MK" title="Professional Macedonian Captions" description="From speech to polished animated subtitles in just a few minutes." cta="Explore CaptionLab.mk">
+              <div className="captionlab-product-preview">
+                <div className="captionlab-product-video captionlab-product-video--before"><span>BEFORE</span><i className="captionlab-scene" /><strong /></div>
+                <span className="captionlab-product-divider" aria-hidden="true">→</span>
+                  <div className="captionlab-product-video captionlab-product-video--after"><span>{t('heroPreview.after')}</span><i className="captionlab-scene" /><strong>{t('heroPreview.captionResultLine1')}<br />{t('heroPreview.captionResultLine2')}</strong></div>
+              </div>
+            </ProductCard>
+          </div>
+        </section>
+
+        <section className="coming-next" aria-labelledby="coming-next-title">
+          <span className="coming-next__eyebrow">{t('coming.eyebrow')}</span>
+          <h2 id="coming-next-title">{t('coming.title')}</h2>
+          <div className="future-product-grid">
+            <FutureCardLink to="/products/konobar" className="future-product-card">
+              <img className="future-card__reference future-card__reference--konobar" src="/comingsoon1.jpeg" alt="Konobar NFC waiter system preview" />
+              <span className="future-card__overlay future-card__overlay--more">{t('coming.more')} <span aria-hidden="true">→</span></span>
+            </FutureCardLink>
+            <article className="future-product-card">
+              <img className="future-card__reference future-card__reference--problem" src="/comingsoon2.jpeg" alt="Problem city reporting preview" />
+              <span className="future-card__overlay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>{t('coming.confidential')}</span>
+            </article>
+            <article className="future-product-card">
+              <img className="future-card__reference future-card__reference--youdidwhat" src="/comingsoon3.jpeg" alt="YouDidWhat shared chores preview" />
+              <span className="future-card__overlay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>{t('coming.confidential')}</span>
+            </article>
+          </div>
+        </section>
+        </section>
+
         <section className="process-section" id="process" aria-label="Our process" data-reveal="process">
-          <span data-reveal="process-label">Research.</span>
+          <span data-reveal="process-label">{t('process.research')}</span>
           <span className="process-arrow">→</span>
-          <span data-reveal="process-label">Prototype.</span>
+          <span data-reveal="process-label">{t('process.prototype')}</span>
           <span className="process-arrow">→</span>
-          <span data-reveal="process-label">Launch.</span>
+          <span data-reveal="process-label">{t('process.launch')}</span>
           <span className="process-arrow">→</span>
-          <span data-reveal="process-label">Learn.</span>
+          <span data-reveal="process-label">{t('process.learn')}</span>
+        </section>
+
+        <section className="metrics-section" aria-label="DreamLab by the numbers">
+          <CountUpMetric value={2017} label={t('about.founded')} />
+          <CountUpMetric value={500} suffix="+" label={t('about.clients')} />
+          <CountUpMetric value={10000} suffix="+" label={t('about.videos')} />
         </section>
 
         <section className="ventures-section" id="ventures">
-          <div className="venture-grid">
-            <article className="venture-card venture-card--fires" data-reveal="product-card">
-              <div className="card-art card-art--fires" aria-hidden="true">
-                <span className="art-orbit art-orbit--one" />
-                <span className="art-orbit art-orbit--two" />
-                <span className="fire-map fire-map--one" />
-                <span className="fire-map fire-map--two" />
-                <span className="fire-signal" />
-                <span className="fire-route" />
-                <span className="fire-panel"><b>LIVE MONITORING</b><strong>North zone / 04</strong><i /><i /><i /></span>
-              </div>
-              <div>
-                <span className="card-label">LIVE</span>
-                <h3>pozari.mk</h3>
-                <div className="card-line" />
-                <p>Wildfire intelligence platform</p>
-              </div>
-
-              <a href="#" aria-label="View pozari.mk">
-                →
-              </a>
-            </article>
-
-            <article className="venture-card venture-card--problems" data-reveal="product-card">
-              <div className="card-art card-art--problems" aria-hidden="true">
-                <span className="problem-grid" />
-                <span className="problem-route" />
-                <span className="problem-pin" />
-                <span className="problem-panel"><b>OPEN REPORTS</b><strong>12 unresolved</strong><i /><i /><i /></span>
-                <span className="problem-bars"><i /><i /><i /><i /></span>
-              </div>
-              <div>
-                <span className="card-label">ACTIVE</span>
-                <h3>problem.mk</h3>
-                <div className="card-line" />
-                <p>
-                  City issue reporting platform
-                </p>
-              </div>
-
-              <a href="#" aria-label="View problem.mk">
-                →
-              </a>
-            </article>
-
-            <article className="venture-card venture-card--service" data-reveal="product-card">
-              <div className="card-art card-art--service" aria-hidden="true">
-                <span className="service-tablet"><i /><b /><b /><b /><b /></span>
-                <span className="service-order"><b>NEW ORDER</b><strong>Table 07 · Preparing</strong><i /><i /><i /></span>
-                <span className="service-ring" />
-              </div>
-              <div>
-                <span className="card-label">AVAILABLE</span>
-                <h3>konobar.mk</h3>
-                <div className="card-line" />
-                <p>
-                  Restaurant operations platform
-                </p>
-              </div>
-
-              <a href="#" aria-label="View konobar.mk">
-                →
-              </a>
-            </article>
+          <div className="story-intro">
+            <div className="about-heading-wrap">
+              <p className="about-heading-eyebrow">{i18n.language === 'mk' ? 'НАШАТА ПРИКАЗНА' : 'OUR STORY'}</p>
+              <h2 className="about-title">
+                {i18n.language === 'mk' ? t('about.title') : <>From creative<br />production<br />to digital<br />products.</>}
+              </h2>
+            </div>
+            <div className="story-copy">
+              {t('about.paragraphs', { returnObjects: true }).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </div>
           </div>
+
         </section>
 
       </main>
 
-      <footer className="site-footer" id="contact" data-reveal="footer">
-        <div className="footer-brand">
-          <DreamLabMark small />
-          <strong>DreamLab</strong>
-        </div>
-
-        <div className="footer-divider" />
-
-        <p>© DreamLab 2026</p>
-        <p>Macedonia, Europe</p>
-
-        <div className="footer-links">
-          <a href="#" aria-label="DreamLab website">
-            ◎
-          </a>
-          <a href="#" aria-label="DreamLab LinkedIn">
-            in
-          </a>
-          <a href="mailto:hello@dreamlab.mk" aria-label="Email DreamLab">
-            ✉
-          </a>
-        </div>
-      </footer>
+      <SiteFooter />
+      <BackToTop />
     </div>
   )
 }
