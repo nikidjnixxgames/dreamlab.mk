@@ -2,7 +2,7 @@ import './App.css'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import SiteHeader, { DreamLabMark } from './SiteHeader.jsx'
+import SiteHeader from './SiteHeader.jsx'
 import SiteFooter from './components/SiteFooter.jsx'
 import ProductCard from './components/ProductCard.jsx'
 
