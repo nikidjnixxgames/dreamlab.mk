@@ -2061,7 +2061,9 @@ Dedicated mobile Hero carousel; desktop ecosystem geometry remains unchanged.
 @media (max-width: 640px) { .process-section { min-height: 78px; margin: 16px 0 0; padding: 0 18px; grid-template-columns: 1fr; gap: 12px; } .process-section .process-arrow { transform: rotate(90deg); } }
 
 /* Approved signature logo, shared by every page header and footer. */
-.dreamlab-wordmark { display: block; width: 170px; height: auto; flex-shrink: 0; }
-.dreamlab-wordmark--small { width: 160px; }
-@media (max-width: 980px) { .dreamlab-wordmark { width: 150px; } .dreamlab-wordmark--small { width: 150px; } }
-@media (max-width: 480px) { .dreamlab-wordmark { width: 125px; } .dreamlab-wordmark--small { width: 145px; } }
+.dreamlab-wordmark { display: block; width: 120px; height: auto; flex-shrink: 0; }
+.dreamlab-wordmark--small { width: 110px; }
+.site-footer__left > span { margin-left: 0; }
+.site-footer__left { gap: 8px; }
+@media (max-width: 980px) { .dreamlab-wordmark { width: 112px; } .dreamlab-wordmark--small { width: 106px; } }
+@media (max-width: 480px) { .dreamlab-wordmark { width: 108px; } .dreamlab-wordmark--small { width: 104px; } }
