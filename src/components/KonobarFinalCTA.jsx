@@ -1,8 +1,9 @@
+import { localizedPath } from '../seo.js'
 import "./KonobarFinalCTA.css";
 import { useTranslation } from "react-i18next";
 
 export default function KonobarFinalCTA() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <section className="konobar-final">
       <svg
@@ -64,7 +65,7 @@ export default function KonobarFinalCTA() {
           </a>
           <a
             className="konobar-final__button konobar-final__button--secondary"
-            href="/"
+            href={localizedPath('/', i18n.language)}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3 11 12 4l9 7" />

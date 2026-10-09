@@ -1,0 +1,31 @@
+{
+  "name": "DreamLab \u2014 From Ideas to Solutions",
+  "short_name": "DreamLab",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eee9df",
+  "theme_color": "#4f5734",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "id": "/",
+  "lang": "en",
+  "description": "Focused digital products for people, businesses and cities."
+}

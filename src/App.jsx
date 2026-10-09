@@ -81,7 +81,7 @@ function App() {
     const targetId = location.state?.scrollTo || location.state?.section
     if (!targetId) return
     const frame = window.requestAnimationFrame(() => targetId === 'top' ? window.scrollTo({ top: 0, behavior: 'smooth' }) : scrollToSection(targetId))
-    window.history.replaceState({}, '', '/')
+    window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search + window.location.hash)
     return () => window.cancelAnimationFrame(frame)
   }, [location.state])
 
@@ -425,7 +425,7 @@ function App() {
           <span className="coming-next__eyebrow">{t('coming.eyebrow')}</span>
           <h2 id="coming-next-title">{t('coming.title')}</h2>
           <div className="future-product-grid">
-            <FutureCardLink to="/products/konobar" className="future-product-card">
+            <FutureCardLink to="/products/konobar/" className="future-product-card">
               <img className="future-card__reference future-card__reference--konobar" src="/comingsoon1.jpeg" alt="Konobar NFC waiter system preview" />
               <span className="future-card__overlay future-card__overlay--more">{t('coming.more')} <span aria-hidden="true">→</span></span>
             </FutureCardLink>

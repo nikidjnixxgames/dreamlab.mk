@@ -1,11 +1,11 @@
+DirectoryIndex index.html
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-
+# Preserve localized HTML: never rewrite these routes to the English SPA shell.
+RewriteRule ^(?:mk(?:/products/konobar)?|products/konobar)$ %{REQUEST_URI}/ [R=301,L]
 RewriteRule ^index\.html$ - [L]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
 RewriteRule . /index.html [L]
 </IfModule>

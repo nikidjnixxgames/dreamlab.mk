@@ -393,12 +393,6 @@ function BackToTop() {
 export default function KonobarPage() {
   const { t } = useTranslation();
   useEffect(() => {
-    document.title = t("konobar.meta.title");
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute("content", t("konobar.meta.description"));
-  }, [t]);
-  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
