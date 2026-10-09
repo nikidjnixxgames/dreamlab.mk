@@ -9,10 +9,10 @@ export function metadata(path) {
   const product = page !== '/'
   return {
     language,
-    image: origin + '/dreamlab-signature-green-dl.png',
-    imageAlt: language === 'mk' ? 'Потписно лого на DreamLab во маслинеста зелена боја.' : 'DreamLab signature logo with olive green lettering.',
-    imageWidth: 2043,
-    imageHeight: 770,
+    image: origin + '/dreamlab-social-preview-v1.png',
+    imageAlt: language === 'mk' ? 'DreamLab — From Ideas to Solutions, со приказ на дигитални производи.' : 'DreamLab — From Ideas to Solutions, with digital product illustrations.',
+    imageWidth: 1200,
+    imageHeight: 630,
     url: origin + localizedPath(page, language),
     title: product ? (language === 'mk' ? 'Konobar — NFC дигитален келнер | DreamLab' : 'Konobar — NFC Digital Waiter | DreamLab') : (language === 'mk' ? 'DreamLab | Од идеи до решенија' : 'DreamLab | From Ideas to Solutions'),
     description: product ? (language === 'mk' ? 'NFC систем преку веб за побрза услуга во угостителски објекти.' : 'A browser-based NFC hospitality system for faster table service.') : (language === 'mk' ? 'Дизајнираме и развиваме фокусирани софтверски решенија за луѓе, бизниси и градови.' : 'We design and build focused software that helps people, businesses and cities through thoughtful digital products.'),
