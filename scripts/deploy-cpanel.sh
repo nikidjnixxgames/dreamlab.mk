@@ -20,7 +20,12 @@ ssh "${ssh_args[@]}" "$ssh_host" 'printf "Hosting connection verified\n"'
 npm run lint
 npm run build
 node scripts/check-seo.js
-mkdir -p "$deploy_root"
+# Git receives a shell command; quote local paths before constructing it.
+printf -v git_ssh '%q ' ssh "${ssh_args[@]}"
+if [[ ! -d "$deploy_root/.git" ]]; then
+  mkdir -p "$(dirname "$deploy_root")"
+  GIT_SSH_COMMAND="$git_ssh" git clone --origin hosting "ssh://$ssh_host$remote_repo" "$deploy_root"
+fi
 python3 - "$project_root/dist" "$deploy_root/site" <<'PYBUILD'
 import pathlib, shutil, sys
 source, target = map(pathlib.Path, sys.argv[1:])
@@ -38,16 +43,10 @@ deployment:
 YAML
 source_commit="$(git rev-parse HEAD)"
 printf '%s\n' "$source_commit" > "$deploy_root/SOURCE_COMMIT"
-if [[ ! -d "$deploy_root/.git" ]]; then
-  git init --initial-branch=master "$deploy_root"
-  git -C "$deploy_root" remote add hosting "ssh://$ssh_host$remote_repo"
-fi
 git -C "$deploy_root" add --all
 if ! git -C "$deploy_root" diff --cached --quiet; then
   git -C "$deploy_root" commit -m "Deploy DreamLab source $source_commit"
 fi
-# Git receives a shell command; quote local paths before constructing it.
-printf -v git_ssh '%q ' ssh "${ssh_args[@]}"
 GIT_SSH_COMMAND="$git_ssh" git -C "$deploy_root" push hosting master
 expected="$(shasum -a 256 "$deploy_root/site/index.html" | awk '{print $1}')"
 for attempt in {1..15}; do
