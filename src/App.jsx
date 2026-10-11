@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import SiteHeader from './SiteHeader.jsx'
 import SiteFooter from './components/SiteFooter.jsx'
 import ProductCard from './components/ProductCard.jsx'
+import DreamDropPreview from './components/DreamDropPreview.jsx'
 
 function PozariStatus() {
   const { t } = useTranslation()
@@ -76,6 +77,27 @@ function App() {
   const { t, i18n } = useTranslation()
   const pozariImage = i18n.language === 'mk' ? '/og-image.png' : '/pozarimk_mk.png'
   const location = useLocation()
+  const [heroProduct, setHeroProduct] = useState(0)
+  const [heroPaused, setHeroPaused] = useState(false)
+  const [heroReducedMotion, setHeroReducedMotion] = useState(false)
+  const heroProducts = ['DreamDrop', 'WaaS', 'Pozari', 'CaptionLab']
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setHeroReducedMotion(preference.matches)
+    update()
+    preference.addEventListener('change', update)
+    return () => preference.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    if (heroPaused || heroReducedMotion) return undefined
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setHeroProduct((current) => (current + 1) % 4)
+    }, 3000)
+    return () => window.clearInterval(timer)
+  }, [heroPaused, heroReducedMotion, heroProduct])
+
 
   useEffect(() => {
     const targetId = location.state?.scrollTo || location.state?.section
@@ -354,7 +376,7 @@ function App() {
           </div>
 
           <div className="hero-visual">
-            <div className="hero-ecosystem desktop-hero-products" data-reveal="hero-art" aria-label="Connected digital product ecosystem illustration">
+            <div className="hero-ecosystem desktop-hero-products hero-ecosystem--with-drop hero-carousel" data-reveal="hero-art" role="region" aria-label={t('heroCarousel.label')} onMouseEnter={() => setHeroPaused(true)} onMouseLeave={() => setHeroPaused(false)} onFocus={() => setHeroPaused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeroPaused(false) }}>
               <span className="ecosystem-ambient ecosystem-ambient--one" data-depth="0.55" />
               <span className="ecosystem-ambient ecosystem-ambient--two" data-depth="0.8" />
               <span className="ecosystem-ambient ecosystem-ambient--three" data-depth="0.35" />
@@ -367,7 +389,19 @@ function App() {
               <span className="ecosystem-node ecosystem-node--three" data-depth="0.42" />
               <span className="ecosystem-data-pulse ecosystem-data-pulse--one" />
               <span className="ecosystem-data-pulse ecosystem-data-pulse--two" />
-              <div className="ecosystem-panel ecosystem-panel--map hero-product-card--pozari" data-depth="0.72">
+              <a className={`ecosystem-panel ecosystem-panel--waas${heroProduct === 1 ? ' is-active' : ''}`} aria-hidden={heroProduct !== 1} tabIndex={heroProduct === 1 ? 0 : -1} data-depth="0.72" href="https://waas.dreamlab.mk/" target="_blank" rel="noopener noreferrer">
+                <span className="panel-kicker">WAAS.DREAMLAB.MK <em>{t('products.new')}</em></span>
+                <b className="drop-hero-title">{t('heroPreview.waasTitle')}</b>
+                <img className="waas-hero-image" src="/waas/hero-preview.png" alt={t('heroPreview.waasAlt')} />
+                <p className="drop-hero-caption">{t('heroPreview.waasDescription')}</p>
+              </a>
+              <a className={`ecosystem-panel ecosystem-panel--drop${heroProduct === 0 ? ' is-active' : ''}`} aria-hidden={heroProduct !== 0} tabIndex={heroProduct === 0 ? 0 : -1} data-depth="0.9" href="https://drop.dreamlab.mk/" target="_blank" rel="noopener noreferrer">
+                <span className="panel-kicker">DREAMDROP <em>{t('products.new')}</em></span>
+                <b className="drop-hero-title">{t('products.dropTitle')}</b>
+                <DreamDropPreview compact />
+                <p className="drop-hero-caption">{t('heroPreview.dropDescription')}</p>
+              </a>
+              <a href="https://www.pozari.mk/" target="_blank" rel="noopener noreferrer" className={`ecosystem-panel ecosystem-panel--map hero-product-card--pozari${heroProduct === 2 ? ' is-active' : ''}`} aria-hidden={heroProduct !== 2} tabIndex={heroProduct === 2 ? 0 : -1} data-depth="0.72">
                 <span className="panel-kicker">POZARI.MK <em>LIVE</em></span>
                 <b>{t('heroPreview.pozariTitle')}</b>
                 <span className="panel-map panel-map--pozari"><img src={pozariImage} alt={i18n.language === 'mk' ? 'Pozari.mk платформа за следење пожари' : 'Pozari.mk wildfire monitoring platform'} /></span>
@@ -390,16 +424,25 @@ function App() {
                     ))}
                   </div>
                 </div>
-              </div>
-              <div className="ecosystem-panel ecosystem-panel--service hero-product-card--captionlab" data-depth="1.08">
+              </a>
+              <a href="https://www.captionlab.mk/" target="_blank" rel="noopener noreferrer" className={`ecosystem-panel ecosystem-panel--service hero-product-card--captionlab${heroProduct === 3 ? ' is-active' : ''}`} aria-hidden={heroProduct !== 3} tabIndex={heroProduct === 3 ? 0 : -1} data-depth="1.08">
                 <span className="panel-kicker captionlab-kicker">CAPTIONLAB.MK <em>LIVE</em></span>
                 <b className="captionlab-title">{t('heroPreview.captionTitle')}</b>
                 <div className="captionlab-compare">
                   <div className="captionlab-video captionlab-video--before"><span>{t('heroPreview.before')}</span><i className="captionlab-scene" /><strong /></div>
-                  <button className="captionlab-divider" aria-label="Compare before and after">→</button>
+                  <span className="captionlab-divider" aria-hidden="true">→</span>
                 <div className="captionlab-video captionlab-video--after"><span>{t('heroPreview.after')}</span><i className="captionlab-scene" /><strong>{t('heroPreview.captionResultLine1')}<br />{t('heroPreview.captionResultLine2')}</strong></div>
                 </div>
                 <p className="captionlab-description">{t('heroPreview.captionDescription')}<br />{t('heroPreview.captionDescription2')}</p>
+              </a>
+              <div className="hero-carousel__controls">
+                <span className="hero-carousel__count">0{heroProduct + 1} / 04</span>
+                <div className="hero-carousel__progress" aria-hidden="true"><span key={heroProduct} style={{ animationPlayState: heroPaused ? 'paused' : 'running' }} /></div>
+                <div className="hero-carousel__nav">
+                  <button type="button" className="hero-carousel__arrow" aria-label={t('heroCarousel.previous')} onClick={() => setHeroProduct((current) => (current + 3) % 4)}>←</button>
+                  {heroProducts.map((name, index) => <button type="button" key={name} aria-pressed={heroProduct === index} className={`hero-carousel__choice${heroProduct === index ? ' is-active' : ''}`} onClick={() => setHeroProduct(index)}>{name}</button>)}
+                  <button type="button" className="hero-carousel__arrow" aria-label={t('heroCarousel.next')} onClick={() => setHeroProduct((current) => (current + 1) % 4)}>→</button>
+                </div>
               </div>
             </div>
           </div>
@@ -408,6 +451,12 @@ function App() {
         <section id="products" aria-label="Products">
         <section className="products-section" aria-label="Live products">
           <div className="venture-grid">
+            <ProductCard kind="dreamdrop" translationKey="drop" domain="DROP.DREAMLAB.MK" href="https://drop.dreamlab.mk/" status={t('products.new')}>
+              <img className="drop-product-image" src="/dreamdrop/transfer-preview.png" alt={t('products.dropTransferAlt')} />
+            </ProductCard>
+            <ProductCard kind="waas" translationKey="waas" domain="WAAS.DREAMLAB.MK" href="https://waas.dreamlab.mk/" status={t('products.new')}>
+              <img className="waas-product-image" src="/waas/hero-preview.png" alt={t('heroPreview.waasAlt')} />
+            </ProductCard>
             <ProductCard kind="pozari" domain="POZARI.MK" title="Wildfire Intelligence Platform" description="Live fire monitoring, citizen reporting, and real-time situational awareness." cta="Explore Pozari.mk">
               <div className="pozari-product-preview"><img src={pozariImage} alt={i18n.language === 'mk' ? 'Pozari.mk платформа за следење пожари' : 'Pozari.mk wildfire monitoring platform'} /></div>
             </ProductCard>

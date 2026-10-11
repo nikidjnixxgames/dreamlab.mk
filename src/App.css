@@ -2067,3 +2067,132 @@ Dedicated mobile Hero carousel; desktop ecosystem geometry remains unchanged.
 .site-footer__left { gap: 8px; }
 @media (max-width: 980px) { .dreamlab-wordmark { width: 112px; } .dreamlab-wordmark--small { width: 106px; } }
 @media (max-width: 480px) { .dreamlab-wordmark { width: 108px; } .dreamlab-wordmark--small { width: 104px; } }
+
+/* DreamDrop joins the existing product ecosystem. */
+.product-card--dreamdrop { grid-column: 1; background: linear-gradient(145deg, #e9ddff, #f3edff); color: #302345; }
+.product-card--dreamdrop .product-card__copy h3, .product-card--dreamdrop .product-card__copy p { max-width: 300px; }
+.drop-preview { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; height: 100%; min-height: 160px; padding: 12px; color: #302345; }
+.drop-preview__phone, .drop-preview__computer { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 1px solid #ded1f2; border-radius: 14px; background: #fff; box-shadow: 0 8px 18px #4d2c7010; }
+.drop-preview__phone { width: 120px; border: 3px solid #ded1f2; }
+.drop-preview__computer { width: 210px; }
+.drop-preview__label { font-size: 9px; font-weight: 650; color: #766a86; }
+.drop-preview__brand { font-size: 12px; font-weight: 750; }
+.drop-preview__files { display: flex; gap: 5px; }
+.drop-preview__files span { display: grid; place-items: center; width: 35px; height: 42px; background: #eee5ff; color: #7040ff; border-radius: 6px; font-size: 9px; font-weight: 700; }
+.drop-preview__upload { display: grid; place-items: center; height: 27px; background: #7040ff; color: white; border-radius: 7px; }
+.drop-preview__arrow { color: #7040ff; font-size: 25px; }
+.drop-preview__folder { width: 42px; height: 30px; margin-top: 4px; display: grid; place-items: center; position: relative; background: #7040ff; color: white; border-radius: 4px; font-weight: 750; }
+.drop-preview__folder::before { content: ''; position: absolute; width: 20px; height: 6px; top: -4px; left: 0; background: #7040ff; border-radius: 4px 4px 0 0; }
+.drop-preview__file { display: flex; justify-content: space-between; gap: 8px; font-size: 10px; padding-bottom: 5px; border-bottom: 1px solid #eee8f5; }
+.drop-preview__file i { color: #668458; font-style: normal; }
+.drop-preview__received { font-size: 9px; color: #668458; }
+.hero-ecosystem--with-drop .ecosystem-panel--drop { width: 370px; min-height: 330px; padding: 20px 21px; right: 6%; top: 4%; color: #303731; text-decoration: none; border: 1px solid rgba(255,255,255,.7); border-radius: 14px; background: rgba(250,248,240,.72); box-shadow: 0 9px 20px rgba(71,73,53,.08), inset 0 1px 0 rgba(255,255,255,.65); transform: rotate(4deg); animation: ecosystem-float-service-separated 7s ease-in-out infinite; }
+.ecosystem-panel--drop .panel-kicker { color: #7c8171; }
+.drop-hero-title { color: #303731; font-size: 17px !important; font-weight: 650; letter-spacing: -.3px; }
+.drop-hero-caption { margin: 13px 0 0; color: #6d727b; font-size: 12px; font-weight: 450; line-height: 1.38; text-align: left; }
+/* Match the sibling hero card's two-panel preview and central arrow. */
+.drop-preview--compact { position: relative; gap: 8px; padding: 0; height: 172px; min-height: 0; margin-top: 15px; color: #303731; }
+.drop-preview--compact .drop-preview__phone, .drop-preview--compact .drop-preview__computer { flex: 1; width: auto; min-width: 0; height: 100%; padding: 10px; gap: 9px; border: 1px solid rgba(47,42,39,.28); border-radius: 8px; box-shadow: none; background: #eeeae0; }
+.drop-preview--compact .drop-preview__computer { border: 2px solid #829a79; background: #eef0e7; }
+.drop-preview--compact .drop-preview__label { align-self: flex-start; padding: 4px 7px; border-radius: 7px; background: #383b32; color: #fff; font-size: 7px; }
+.drop-preview--compact .drop-preview__brand { font-size: 11px; }
+.drop-preview--compact .drop-preview__files span { width: 43px; height: 49px; color: #4f5734; background: #dedfcf; font-size: 9px; }
+.drop-preview--compact .drop-preview__upload { color: #f6f1e7; background: #4f5734; }
+.drop-preview--compact .drop-preview__folder, .drop-preview--compact .drop-preview__folder::before { background: #829a79; }
+.drop-preview--compact .drop-preview__file { font-size: 8px; border-color: #d8dece; }
+.drop-preview--compact .drop-preview__received { font-size: 8px; }
+.drop-preview--compact .drop-preview__arrow { position: absolute; left: 50%; top: 50%; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: #282322; background: #fff; box-shadow: 0 5px 13px rgba(39,27,24,.2); font-size: 20px; transform: translate(-50%,-50%); }
+.hero-ecosystem--with-drop .ecosystem-panel--map { left: 4%; top: 33%; }
+.hero-ecosystem--with-drop .ecosystem-panel--service { right: 4%; bottom: 3%; }
+@media (max-width: 1023px) {
+  .hero-visual:has(.hero-ecosystem--with-drop), .hero-ecosystem--with-drop { height: 680px; min-height: 680px; }
+  .hero-ecosystem--with-drop .ecosystem-panel--map { top: 30%; }
+}
+@media (max-width: 767px) {
+  .hero-visual:has(.hero-ecosystem--with-drop) { height: auto; min-height: 0; padding: 0; }
+  .hero-ecosystem--with-drop { display: flex; flex-direction: column; align-items: center; gap: 20px; height: auto; min-height: 0; padding: 24px 18px; }
+  .hero-ecosystem--with-drop .ecosystem-panel { position: relative; inset: auto; width: 100%; max-width: 390px; margin: 0; min-height: 0; transform: none; animation: none; }
+  .hero-ecosystem--with-drop .ecosystem-panel--drop { order: 0; }
+  .hero-ecosystem--with-drop .ecosystem-panel--map { order: 1; }
+  .hero-ecosystem--with-drop .ecosystem-panel--service { order: 2; }
+  .product-card--dreamdrop { grid-column: auto; }
+  .drop-preview { gap: 8px; padding: 6px; }
+  .drop-preview__phone, .drop-preview__computer { padding: 10px; gap: 6px; }
+  .drop-preview__phone { width: 92px; }
+  .drop-preview__computer { width: 155px; }
+}
+@media (max-width: 767px) {
+  .hero-section > .hero-visual:has(.hero-ecosystem--with-drop) { display: none; }
+  .hero-ecosystem--with-drop .ecosystem-panel--map, .hero-ecosystem--with-drop .ecosystem-panel--service { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) { .hero-ecosystem--with-drop .ecosystem-panel--drop { animation: none; } }
+
+@media (min-width: 1024px) {
+  .hero-visual:has(.hero-ecosystem--with-drop), .hero-ecosystem--with-drop { height: 760px; min-height: 760px; }
+  .hero-ecosystem--with-drop .ecosystem-panel--drop { right: 1%; top: 3%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--map { left: 1%; top: 44%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--service { right: 1%; bottom: 2%; }
+}
+
+.drop-preview--compact .drop-preview__files img { width: calc(50% - 3px); height: 68px; object-fit: cover; border-radius: 6px; }
+.drop-preview--compact .drop-preview__file { align-items: center; gap: 5px; }
+.drop-preview--compact .drop-preview__file img { width: 24px; height: 28px; object-fit: cover; border-radius: 3px; flex: 0 0 auto; }
+.drop-preview--compact .drop-preview__file > span { min-width: 0; font-size: 7px; }
+.drop-preview--compact .drop-preview__folder { width: 32px; height: 22px; }
+.drop-preview--compact .drop-preview__computer { gap: 6px; }
+
+.product-card--dreamdrop .product-card__preview { position: relative; min-height: 0; overflow: hidden; }
+.drop-product-image { position: absolute; inset: 9px; display: block; width: calc(100% - 18px); height: calc(100% - 18px); object-fit: contain; object-position: center; border-radius: 12px; background: #fff; }
+
+.product-card--dreamdrop { grid-template-rows: auto minmax(0, 1fr) auto; }
+@media (max-width: 640px) { .product-card--dreamdrop { grid-template-rows: auto auto 158px auto; } }
+
+/* WaaS reuses the neutral hero card shell. */
+.hero-ecosystem .ecosystem-panel--waas { text-decoration: none; width: 370px; min-height: 330px; padding: 20px 21px; color: #303731; border: 1px solid rgba(255,255,255,.7); border-radius: 14px; background: rgba(250,248,240,.72); box-shadow: 0 9px 20px rgba(71,73,53,.08), inset 0 1px 0 rgba(255,255,255,.65); }
+.waas-hero-image { display: block; width: 100%; height: 172px; margin-top: 15px; object-fit: contain; border-radius: 8px; background: #151c11; border: 1px solid rgba(47,42,39,.28); }
+@media (min-width: 1024px) {
+  .hero-visual:has(.hero-ecosystem--with-drop), .hero-ecosystem--with-drop { height: 820px; min-height: 820px; }
+  .hero-ecosystem--with-drop .ecosystem-panel--waas { left: 1%; top: 3%; transform: rotate(-4deg); }
+  .hero-ecosystem--with-drop .ecosystem-panel--drop { right: 1%; top: 7%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--map { left: 1%; top: auto; bottom: 5%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--service { right: 1%; bottom: 1%; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-visual:has(.hero-ecosystem--with-drop), .hero-ecosystem--with-drop { height: 820px; min-height: 820px; }
+  .hero-ecosystem--with-drop .ecosystem-panel--waas, .hero-ecosystem--with-drop .ecosystem-panel--drop { width: 44%; top: 4%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--waas { left: 3%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--drop { right: 3%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--map { width: 44%; left: 3%; top: auto; bottom: 4%; }
+  .hero-ecosystem--with-drop .ecosystem-panel--service { width: 44%; right: 3%; bottom: 4%; }
+}
+
+.hero-ecosystem a.ecosystem-panel { text-decoration: none; }
+.hero-ecosystem a.ecosystem-panel:focus-visible { outline: 2px solid #4f5734; outline-offset: 5px; }
+.hero-ecosystem .captionlab-divider { display: grid; place-items: center; }
+
+.product-card--waas { color: #f6f1e7; background: linear-gradient(145deg, #4f5734, #69734a); grid-template-rows: auto minmax(0, 1fr) auto; }
+.product-card--waas .product-card__preview { position: relative; min-height: 0; overflow: hidden; }
+.waas-product-image { position: absolute; inset: 9px; display: block; width: calc(100% - 18px); height: calc(100% - 18px); object-fit: contain; object-position: center; border-radius: 12px; background: #151c11; }
+@media (max-width: 640px) { .product-card--waas { grid-template-rows: auto auto 158px auto; } }
+
+/* One focused hero product, rotating every three seconds. */
+@media (min-width: 768px) {
+  .hero-visual:has(.hero-carousel), .hero-ecosystem.hero-carousel { height: 680px; min-height: 680px; }
+  .hero-carousel.hero-ecosystem .ecosystem-panel { left: 50%; right: auto; top: 44%; bottom: auto; width: min(82%, 480px); min-height: 350px; padding: 24px; margin: 0; animation: none; transform: translate(-50%, -50%) scale(.97); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 400ms ease, transform 400ms ease, visibility 400ms; }
+  .hero-carousel.hero-ecosystem .ecosystem-panel.is-active { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+  .hero-carousel .drop-preview--compact, .hero-carousel .waas-hero-image, .hero-carousel.hero-ecosystem .ecosystem-panel--service .captionlab-compare { height: 220px; }
+  .hero-carousel.hero-ecosystem .ecosystem-panel--map .panel-map--pozari { height: 180px; }
+  .hero-carousel .drop-hero-title, .hero-carousel.hero-ecosystem .ecosystem-panel--service .captionlab-title { font-size: 19px !important; }
+  .hero-carousel__controls { position: absolute; left: 50%; bottom: 8%; width: min(88%, 520px); transform: translateX(-50%); z-index: 4; text-align: center; }
+}
+.hero-carousel__count { color: #7c8171; font-size: 11px; font-weight: 650; letter-spacing: .08em; }
+.hero-carousel__progress { height: 3px; margin: 14px 12px 20px; overflow: hidden; border-radius: 99px; background: #dfdacc; }
+.hero-carousel__progress > span { display: block; width: 100%; height: 100%; background: #4f5734; transform-origin: left; animation: hero-carousel-progress 3s linear forwards; }
+@keyframes hero-carousel-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hero-carousel__nav { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.hero-carousel__nav button { cursor: pointer; color: #42453c; border: 1px solid #ded8ca; background: rgba(250,248,240,.7); border-radius: 999px; font: inherit; font-size: 11px; font-weight: 650; padding: 11px 13px; }
+.hero-carousel__nav button.is-active { color: #faf7ef; background: #4f5734; border-color: #4f5734; }
+.hero-carousel__nav .hero-carousel__arrow { flex: 0 0 34px; height: 34px; padding: 0; font-size: 17px; }
+.hero-carousel__nav button:focus-visible { outline: 2px solid #4f5734; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .hero-carousel.hero-ecosystem .ecosystem-panel { transition: none; } .hero-carousel__progress > span { animation: none; } }
